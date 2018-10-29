@@ -184,28 +184,36 @@ public class NReinas {
     public static void main(String[] args) {
     	int k = 0;
     	int t = 0;
+    	int f = 0;
+		int c = 0;
     	Scanner sc = new Scanner(System.in);
     	int maxTableros = sc.nextInt();
     	Tableros tableros = new Tableros(maxTableros);
-    	
+    	Tablero tablero = new Tablero();
     	do {
-    		int i = 0;
-    		int j = 0;
-    		Tablero tablero = new Tablero();
+    		
     		int actual;
     		actual =sc.nextInt();
-    		rellenar(i,tablero,j,actual);
-    		k++;
-    		if(k==8) {
+    		rellenar(f,tablero,c,actual);
+    		c++;
+    		if(c==8) {
+    			c=0;
+    			f++;
+    		}
+    		if(f==8) {
     			tableros.add(t, tablero);
-    			k=0;
+    			f=0;
     			t++;
+    			if(t<maxTableros) {
+    				tablero = new Tablero();
+    			}
     		}
     	}while(sc.hasNext());
     	sc.close();
     	//Creamos el objeto N_Reinas, en este caso para un tama�o de tablero de 8x8 (n=8)
     	//y pedimos que obtenga las soluciones (2 soluciones con n=4, 92, con n=8, 724 con n=10).
     	for(int num = 0;num<maxTableros;num++) {
+    		Tablero actual = tableros.getTablero(num);
     		int mayor = 0;
     		NReinas reinas= new NReinas(8);
     		reinas.Soluciona();
@@ -219,14 +227,15 @@ public class NReinas {
     			int[] aux  = (int[]) soluciones.get(i);
     			int[] sumas = new int[soluciones.size()];
     			for (int j = 0; j<aux.length;j++){
-    			sumas[i]+=	aux[j];
+    				int valor = 0;
+    				valor = actual.getNum(j, aux[j]);
+    				sumas[i]+=	valor;
     			}
     			if(sumas[i]>mayor) {
     				mayor=sumas[i];
     			}
     		}
     		System.out.println(mayor);
-    		mayor = 0;
   	 }
     }
 }
